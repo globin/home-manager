@@ -222,9 +222,9 @@ in {
             inherit indent;
           };
           allFields = filterAttrs (n: v: !(isAttrs v)) attrs;
-          importantFields =
-            filterAttrs (n: _: (hasPrefix "$" n) || (hasPrefix "bezier" n))
-            allFields;
+          importantFields = filterAttrs (n: _:
+            n == "source" || n == "plugin" || (hasPrefix "$" n)
+            || (hasPrefix "bezier" n)) allFields;
           fields = builtins.removeAttrs allFields
             (mapAttrsToList (n: _: n) importantFields);
         in mkFields importantFields
